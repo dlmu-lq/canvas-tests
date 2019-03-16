@@ -1,10 +1,9 @@
+<!--根据宽高设置canvas的width height属性-->
 <template>
-    <div class="component-parent">
         <canvas class="normal-canvas"
                 :id="canvasProperties.id"
                 :width="canvasProperties.width"
                 :height="canvasProperties.height"></canvas>
-    </div>
 </template>
 
 <script lang="ts">
@@ -22,6 +21,7 @@
             }
         },
         mounted(){
+            this.canvasProperties.id = new Date().getTime();
 
         }
     })
