@@ -1,4 +1,45 @@
-.index-view{
+/**
+ * 首页
+ */
+@import "common";
+
+.view-index{
     width: 100%;
     height: 100%;
+    display: flex;
+}
+.view-nav{
+    height: 100%;
+    width: 15%;
+}
+.logo{
+    height: calc(12% - 1px);
+    width: 100%;
+    border-bottom: solid 1px @border-color;
+    font-size: 24px;
+    font-style: italic;
+    font-weight: bold;
+}
+.menu-parent{
+    width: 100%;
+    height: 88%;
+    overflow-y: auto;
+}
+.menu-item:first-child{
+    margin-top: 20px;
+}
+.menu-item{
+    cursor: pointer;
+    line-height: 2;
+}
+.menu-item:hover{
+    text-decoration: underline;
+}
+.menu-item-active{
+    color:cornflowerblue;
+}
+.view-content{
+    width: 85%;
+    height: 100%;
+    border-left: solid 1px @border-color;
 }
