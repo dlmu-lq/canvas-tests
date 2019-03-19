@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <!--<router-view/>-->
-    <!--todo first webgl 测试，待整合-->
-    <canvas id="first" width="500" height="500"></canvas>
+    <router-view/>
   </div>
 </template>
 

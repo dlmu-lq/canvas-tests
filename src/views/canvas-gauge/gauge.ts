@@ -26,10 +26,10 @@ const ringArcWidth = 12;
 
 export interface GaugeParams {
     canvasId:string;
-    changeCallBack:(params:any)=>void;
-    bigMarkText:string[];
-    initAngle:number;
-    mouseControl:boolean;
+    changeCallBack?:(params:any)=>void;
+    bigMarkText?:string[];
+    initAngle?:number;
+    mouseControl?:boolean;
 }
 
 export default class Gauge {

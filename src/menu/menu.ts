@@ -15,6 +15,13 @@ export default <Array<MenuItem>> [
         path:"/tetPage",
         children:[],
     },
+    {
+        label:"first webgl triangle",
+        name:"firstWebgl",
+        basePath:"",
+        path:"/firstWebgl",
+        children:[],
+    },
 ]
 
 export interface MenuItem {

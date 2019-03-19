@@ -17,12 +17,23 @@
                     id:"",
                     width:0,
                     height:0,
-                }
+                } as any
             }
         },
         mounted(){
             this.canvasProperties.id = new Date().getTime();
-
+            this.$nextTick(()=>{
+                let el = document.getElementById(this.canvasProperties.id);
+                let width = el.getBoundingClientRect().width;
+                let height = el.getBoundingClientRect().height;
+                el.style.width = width + "px";
+                el.style.height = height + "px";
+                this.canvasProperties.width = width;
+                this.canvasProperties.height = height;
+                this.$nextTick(()=>{
+                    this.$emit("mounted",this.canvasProperties.id);
+                });
+            });
         }
     })
 </script>
