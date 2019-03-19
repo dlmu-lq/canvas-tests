@@ -1,11 +1,11 @@
 import webglUtils from "../../util/webglUtils";
-import vertexShaderSource from "./shaders/v1.vert";
-import fragmentShaderSource from "./shaders/v1.frag";
+import vertexShaderSource1 from "./shaders/v1.vert";
+import fragmentShaderSource1 from "./shaders/v1.frag";
+import vertexShaderSource2 from "./shaders/v2.vert";
+import fragmentShaderSource2 from "./shaders/v2.frag";
 
 export default class FirstWebGl{
-
     gl:WebGLRenderingContext = null;
-    program:WebGLProgram = null;
 
     constructor(canvasId:string){
         let el = document.getElementById(canvasId) as HTMLCanvasElement;
@@ -15,20 +15,18 @@ export default class FirstWebGl{
             alert("no webgl for you");
             return;
         }
-        console.log(vertexShaderSource)
-        console.log(fragmentShaderSource)
-        let vertexShader = webglUtils.createShader(gl,gl.VERTEX_SHADER,vertexShaderSource);
-        let fragmentShader = webglUtils.createShader(gl,gl.FRAGMENT_SHADER,fragmentShaderSource);
-        this.program = webglUtils.createProgram(gl,vertexShader,fragmentShader);
     }
 
     /**
-     * 初始化方法，页面加载时只运行一次
+     * 最基本的创建，读取数据，绘制
      */
-    drawFirstTriangle(){
+    drawFirst(){
         const gl = this.gl;
+        let vertexShader = webglUtils.createShader(gl,gl.VERTEX_SHADER,vertexShaderSource1);
+        let fragmentShader = webglUtils.createShader(gl,gl.FRAGMENT_SHADER,fragmentShaderSource1);
+        const program = webglUtils.createProgram(gl,vertexShader,fragmentShader);
         // 最好仅在初始化时查看
-        let positionAttributeLocation = gl.getAttribLocation(this.program,"a_position");
+        let positionAttributeLocation = gl.getAttribLocation(program,"a_position");
 
         // attributes 从buffer中取数据，创建buffer
         let positionBuffer = this.gl.createBuffer();
@@ -55,7 +53,7 @@ export default class FirstWebGl{
         gl.clear(gl.COLOR_BUFFER_BIT);
 
         // 使用program
-        gl.useProgram(this.program);
+        gl.useProgram(program);
 
         // 开启attribute,以使webgl知道如何从buffer中取数据
         gl.enableVertexAttribArray(positionAttributeLocation);
@@ -83,10 +81,86 @@ export default class FirstWebGl{
         // webgl绘制上面说的三角形时，每个像素都会调用fragment shader，上面仅仅设置了一个颜色值，
     }
 
-    /**
-     *
-     */
-    render(){
+    drawSecond(){
+        const gl = this.gl;
+        const vertexShader = webglUtils.createShader(gl,gl.VERTEX_SHADER,vertexShaderSource2);
+        const fragmentShader = webglUtils.createShader(gl,gl.FRAGMENT_SHADER,fragmentShaderSource1);
+        const program = webglUtils.createProgram(gl,vertexShader,fragmentShader);
 
+        const positionAttribLocation = gl.getAttribLocation(program,"a_position");
+        const resolutionUniformLocation = gl.getUniformLocation(program,"u_resolution");
+
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffer);
+        const positions = [
+            50,50,
+            50,150,
+            150,150,
+            150,150,
+            50,50,
+            150,50
+        ];
+        gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(positions),gl.STATIC_DRAW);
+
+        gl.viewport(0,0,gl.canvas.width,gl.canvas.height);
+        gl.clearColor(0,0,0,0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.useProgram(program);
+
+        gl.enableVertexAttribArray(positionAttribLocation);
+        gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffer);
+        gl.vertexAttribPointer(positionAttribLocation,2,gl.FLOAT,false,0,0);
+        gl.uniform2f(resolutionUniformLocation,gl.canvas.width,gl.canvas.height);
+        gl.drawArrays(gl.TRIANGLES,0,6);
     }
+
+    drawMore(){
+        const gl = this.gl;
+        const vertexShader = webglUtils.createShader(gl,gl.VERTEX_SHADER,vertexShaderSource2);
+        const fragmentShader = webglUtils.createShader(gl,gl.FRAGMENT_SHADER,fragmentShaderSource2);
+        const program = webglUtils.createProgram(gl,vertexShader,fragmentShader);
+        // 创建完成后建立shader中数据的location，下面传入数据时用
+        const positionAttribLocation = gl.getAttribLocation(program,"a_position");
+        const resolutionUniformLocation = gl.getUniformLocation(program,"u_resolution");
+        const colorUniformLocation = gl.getUniformLocation(program,"u_color");
+        // 创建buffer及绑定点
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffer);
+        // 视图清理
+        gl.viewport(0,0,gl.canvas.width,gl.canvas.height);
+        gl.clearColor(0,0,0,0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        gl.useProgram(program);
+        // 设置attribute position读取方式
+        gl.enableVertexAttribArray(positionAttribLocation);
+        gl.vertexAttribPointer(positionAttribLocation,2,gl.FLOAT,false,0,0);
+        // 设置全局变量
+        gl.uniform2f(resolutionUniformLocation,gl.canvas.width,gl.canvas.height);
+        for(let i=0;i<10;i++){
+            // 设置attribute用的 buffer data
+            this.setTriangle(gl,this.randomInt(400),this.randomInt(400),this.randomInt(400),this.randomInt(400));
+            // 设置全局变量
+            gl.uniform3f(colorUniformLocation,Math.random(),Math.random(),Math.random());
+            // 绘制
+            gl.drawArrays(gl.TRIANGLES,0,6);
+        }
+    }
+
+    private setTriangle(gl:WebGLRenderingContext, x, y, width, height){
+        gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(
+            [
+                x,y,
+                x+width,y,
+                x+width,y+height,
+                x+width,y+height,
+                x,y+height,
+                x,y
+            ]
+        ),gl.STATIC_DRAW);
+    }
+
+    private randomInt(num){
+        return Math.round(Math.random() * num);
+    }
+
 }
