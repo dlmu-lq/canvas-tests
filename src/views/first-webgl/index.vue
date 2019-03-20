@@ -1,13 +1,8 @@
 <template>
     <div class="component-parent">
-        <div class="context-button-group">
-            <div @click="changeContent(0)"
-                 :class="{'active':currentType === 0}">triangles</div>
-            <div @click="changeContent(1)"
-                 :class="{'active':currentType === 1}">rectangle</div>
-            <div @click="changeContent(2)"
-                 :class="{'active':currentType === 2}">rectangles</div>
-        </div>
+        <button-group :buttons="buttons"
+                      :initActive="2"
+                      @change="changeContent"></button-group>
         <standard-canvas @mounted="firstWebglCanvasMounted"></standard-canvas>
     </div>
 </template>
@@ -15,17 +10,24 @@
 <script lang="ts">
     import Vue from "vue"
     import StandardCanvas from "@/components/standard-canvas.vue"
+    import ButtonGroup from "@/components/button-group.vue";
     import FirstWebGl from "./first";
 
     export default Vue.extend({
         name: "",
         components:{
-            StandardCanvas
+            StandardCanvas,
+            ButtonGroup
         },
         data(){
             return{
                 firstWebGl:null as FirstWebGl,
                 currentType:2,
+                buttons:[
+                    {type:0,label:"triangles"},
+                    {type:1,label:"rectangle"},
+                    {type:2,label:"rectangles"},
+                ]
             }
         },
         methods:{
@@ -43,7 +45,7 @@
                     case 1:
                         this.firstWebGl.drawSecond();
                         break;
-                    default:
+                    case 2:
                         this.firstWebGl.drawMore();
                         break;
                 }

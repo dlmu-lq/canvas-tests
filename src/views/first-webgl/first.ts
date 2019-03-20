@@ -3,18 +3,14 @@ import vertexShaderSource1 from "./shaders/v1.vert";
 import fragmentShaderSource1 from "./shaders/v1.frag";
 import vertexShaderSource2 from "./shaders/v2.vert";
 import fragmentShaderSource2 from "./shaders/v2.frag";
+import HandleCanvas from "@/components/handleCanvas";
 
-export default class FirstWebGl{
-    gl:WebGLRenderingContext = null;
+export default class FirstWebGl extends HandleCanvas{
 
     constructor(canvasId:string){
-        let el = document.getElementById(canvasId) as HTMLCanvasElement;
-        const gl = el.getContext("webgl");
-        this.gl = gl;
-        if(!gl){
-            alert("no webgl for you");
+        super(canvasId);
+        if(!this.gl)
             return;
-        }
     }
 
     /**
