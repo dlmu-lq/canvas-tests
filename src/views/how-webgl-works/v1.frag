@@ -1,8 +1,9 @@
 //#version 120
 // 使用外部传来的颜色
 
-uniform vec3 color;
+precision mediump float;
+varying vec3 v_color;
 
 void main() {
-    gl_FragColor = color;
+    gl_FragColor = vec4(v_color,1);
 }

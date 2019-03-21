@@ -2,6 +2,7 @@ import {RouteConfig} from "vue-router";
 import Gauge from "@/views/canvas-gauge/index.vue";
 import TestPage from "@/views/test-page/index.vue";
 import FirstWebgl from "@/views/first-webgl/index.vue";
+import HowWebglWorks from "@/views/how-webgl-works/index.vue";
 
 export default <Array<RouteConfig>> [
     {
@@ -18,5 +19,10 @@ export default <Array<RouteConfig>> [
         path:"firstWebgl",
         name:"firstWebgl",
         component:FirstWebgl
+    },
+    {
+        path:"howWebglWorks",
+        name:"howWebglWorks",
+        component:HowWebglWorks
     }
 ];

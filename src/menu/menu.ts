@@ -22,6 +22,13 @@ export default <Array<MenuItem>> [
         path:"/firstWebgl",
         children:[],
     },
+    {
+        label:"how webgl works",
+        name:"howWebglWorks",
+        basePath:"",
+        path:"/howWebglWorks",
+        children:[],
+    },
 ]
 
 export interface MenuItem {
